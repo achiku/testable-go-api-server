@@ -1,0 +1,19 @@
+gom 'github.com/rs/xhandler'
+gom 'github.com/rs/xmux'
+gom 'github.com/rs/xlog'
+gom 'github.com/trong/xlog-sentry'
+gom 'github.com/BurntSushi/toml'
+gom 'golang.org/x/net/context'
+gom 'github.com/achiku/qg'
+gom 'github.com/jackc/pgx'
+gom 'github.com/getsentry/raven-go'
+gom 'github.com/pkg/errors'
+gom 'github.com/achiku/testsvr'
+gom 'github.com/AdrianLungu/decimal'
+
+group :development do
+    gom 'github.com/achiku/wbs'
+    gom 'github.com/achiku/pgtxdb'
+    gom 'github.com/achiku/mergo'
+    gom 'github.com/achiku/dgw'
+end
