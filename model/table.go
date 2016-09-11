@@ -8,30 +8,33 @@ import (
 	"github.com/pkg/errors"
 )
 
-// AlembicVersion represents store_api.alembic_version
-type AlembicVersion struct {
-	VersionNum interface{} // version_num
+// AccessToken represents store_api.access_token
+type AccessToken struct {
+	AccountID   int64     // account_id
+	Token       string    // token
+	IsValid     bool      // is_valid
+	GeneratedAt time.Time // generated_at
 }
 
-// Create inserts the AlembicVersion to the database.
-func (r *AlembicVersion) Create(db Queryer) error {
+// Create inserts the AccessToken to the database.
+func (r *AccessToken) Create(db Queryer) error {
 	_, err := db.Exec(
-		`INSERT INTO alembic_version (version_num) VALUES ($1)`,
-		&r.VersionNum)
+		`INSERT INTO access_token (account_id, token, is_valid, generated_at) VALUES ($1, $2, $3, $4)`,
+		&r.AccountID, &r.Token, &r.IsValid, &r.GeneratedAt)
 	if err != nil {
-		return errors.Wrap(err, "failed to insert alembic_version")
+		return errors.Wrap(err, "failed to insert access_token")
 	}
 	return nil
 }
 
-// GetAlembicVersionByPk select the AlembicVersion from the database.
-func GetAlembicVersionByPk(db Queryer) (*AlembicVersion, error) {
-	var r AlembicVersion
+// GetAccessTokenByPk select the AccessToken from the database.
+func GetAccessTokenByPk(db Queryer, pk0 int64) (*AccessToken, error) {
+	var r AccessToken
 	err := db.QueryRow(
-		`SELECT version_num FROM alembic_version WHERE `,
-	).Scan(&r.VersionNum)
+		`SELECT account_id, token, is_valid, generated_at FROM access_token WHERE account_id = $1`,
+		pk0).Scan(&r.AccountID, &r.Token, &r.IsValid, &r.GeneratedAt)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to select alembic_version")
+		return nil, errors.Wrap(err, "failed to select access_token")
 	}
 	return &r, nil
 }
